@@ -1,4 +1,4 @@
-# gfw_resist_http_router
+# gfw_resist_http_proxy
 knock up gfw active-probe by redirecting to nginx
 
 
