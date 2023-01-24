@@ -21,7 +21,7 @@ url_path = b'GET /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/'
 
 XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 
-my_socket_timeout = 10 # default for google is ~21 sec
+my_socket_timeout = 21 # default for google is ~21 sec
 
 
 
@@ -54,7 +54,7 @@ class ThreadedServer(object):
         self.sock.bind((self.host, self.port))
 
     def listen(self):
-        self.sock.listen(32)  # up to 32 concurrent unaccepted socket queued , the more is refused upon accepting those.
+        self.sock.listen(5)  # up to 5 concurrent unaccepted socket queued , the more is refused upon accepting those.
         while True:
             src_sock , src_addr = self.sock.accept()                    
             
