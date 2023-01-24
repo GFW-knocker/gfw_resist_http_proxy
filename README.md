@@ -19,7 +19,7 @@ knock up gfw active-probe by redirecting to nginx
 
 -so gfw prober alwayse see nginx and cannot talk to xray directly 
 
--so if all other things ok (dynamic-page website, serve on port 80, other ports closed,...) it classifiy you as a legitimate web-server
+-if all other things ok (dynamic-page website, serve on port 80, other ports closed,...) the prober classifiy you as a legitimate web-server
 
 
 
