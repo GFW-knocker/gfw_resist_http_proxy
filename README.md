@@ -31,8 +31,36 @@ knock up gfw active-probe by redirecting it to nginx
 
 4- ufw block all ports except port 80 which is open for everyone
 
+# Suggestion:
+ - is not guarantee to prevent blocking but it prolong (we still working on!)
+ - some blocking is by passive analysis so limit your traffic below 10MB/s or even lower
+ - pyprox is a platform to hide xray , its customizable , you can use it for any path or any other protocol like websocket. you need to watch packet in wireshark and design your own routing mechanism.
+
+# help
+![Alt text](/instruction/pyprox.png?raw=true "pyprox")
+![Alt text](/instruction/config1.png?raw=true "config1")
+![Alt text](/instruction/config2.png?raw=true "config2")
+![Alt text](/instruction/traffic.png?raw=true "traffic")
 
 
+# run python script:
+- set the premission
+
+  add   [#!/usr/bin/env python3]     to first line of pyprox.py
+
+  chmod +x pyprox.py
+
+- to run in forground
+
+  python pyprox.py
+
+- to run in background:
+
+  nohup python pyprox.py &
+
+- to stop script:
+
+  pkill -f pyprox.py
 
 
 
