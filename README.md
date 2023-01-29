@@ -1,24 +1,30 @@
+# update 1401-11-9:
+- add important defense on packet-replay (when GFW request containing valid path but dosent have UUID , we redirect it to nginx)
+- make code cleaner and readable
+
+# TO DO next:
+- pandas analyser of ip log (used to extract GFW prober ip)
+- thread pool (make it stable , use less ram on server with 1000+ users)
+- upload nginx help + Django backend to be used with pyprox
+
+
+
 # gfw_resist_http_proxy
 knock up gfw active-probe by redirecting it to nginx
 
 
 
--nginx reverse proxy is not compatible with xray packet , it drop payload of http header (because xray http header is not standard)
-
--we build a custom http proxy to manually route traffic to each nginx/xray backend
-
--we log all ip+time+req_header so we clearly observing active-probe IPs !
-
--it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
+- nginx reverse proxy is not compatible with xray packet , it drop payload of http header (because xray http header is not standard)
+- we build a custom http proxy to manually route traffic to each nginx/xray backend
+- we log all ip+time+req_header so we clearly observing active-probe IPs !
+- it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
 
 
 # how it work:
 
--all http request examined , if it xray-valid redirect it to xray(n3) else redirect it to nginx(n2)
-
--so gfw prober alwayse see nginx and cannot talk to xray directly 
-
--if all other things ok (dynamic-page website, serve on port 80, other ports closed,...) the prober classifiy you as a legitimate web-server
+- all http request examined , if it xray-valid redirect it to xray(n3) else redirect it to nginx(n2)
+- so gfw prober alwayse see nginx and cannot talk to xray directly 
+- if all other things ok (dynamic-page website, serve on port 80, other ports closed,...) the prober classifiy you as a legitimate web-server
 
 
 # the system consist of a these module:
