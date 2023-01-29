@@ -1,11 +1,11 @@
 # update 1401-11-9:
-- add important defense on packet-replay (when GFW request containing valid path but dosent have UUID , we redirect it to nginx)
+- add important defense on packet-replay (when GFW request contain valid path but have no UUID , we redirect it to nginx)
 - make code cleaner and readable
 
 # TO DO next:
-- pandas analyser of ip log (used to extract GFW prober ip)
-- thread pool (make it stable , use less ram on server with 1000+ users)
-- upload nginx help + Django backend to be used with pyprox
+- python pandas analyser of ip log (used to extract GFW prober ip & usefull statistics about users ip)
+- thread pool (make app stable , use less ram on server with 1000+ users)
+- upload "nginx proxy-pass" help + Django backend to be used with pyprox
 
 
 
