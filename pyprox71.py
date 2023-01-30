@@ -26,6 +26,8 @@ url_path = b'GET /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/'
 
 XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 
+
+XRAY_max_wait = 4 # wait maximum 4 sec to get response from xray otherwise switch to nginx
 my_socket_timeout = 60 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
 first_time_sleep = 0.1 # speed control , avoid server crash if huge number of users flooding
 
@@ -124,12 +126,12 @@ class ThreadedServer(object):
                     if( backend_name =='xray' ):
                         try:                            
                             time.sleep(first_time_sleep)   # speed control + waiting for packet to fully recieve
-                            backend_sock.settimeout(3)
+                            backend_sock.settimeout(XRAY_max_wait)     # set timeout to 4 sec , if xray didnt response , we switch to nginx
                             data = backend_sock.recv(16384)
-                            backend_sock.settimeout(my_socket_timeout)
+                            #backend_sock.settimeout(my_socket_timeout)  # set timeout to its original
                         except Exception as e:
                             # xray didnt recognize user UUID and become silent -> we quickly change backend to nginx -> prevent packet-replay attack of GFW prober
-                            #print('xray 3 second timeout happend')
+                            #print('xray 4 second timeout happend')
                             data = copy.copy(XRAY_400_response)                            
                     
                         if( data[:XRAY_resp_length]==XRAY_400_response):
