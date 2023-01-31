@@ -1,13 +1,20 @@
-# update 1401-11-9:
+# update 1401-11-12:
 - add important defense on packet-replay (when GFW request contain valid path but have no UUID , we redirect it to nginx)
 - make code cleaner and readable
+- add ip log analyzer
 
 # TO DO next:
-- python pandas analyser of ip log (used to extract GFW prober ip & usefull statistics about users ip)
 - thread pool (make app stable , use less ram on server with 1000+ users)
 - upload "nginx proxy-pass" help + Django backend to be used with pyprox
 
-
+# IP Log Analyzer:
+- just run the script to analyze all ip log files and summary them into a tiny excel sheet
+- it list all unique IPs connecting to your server , counting num request to xray/nginx , first seen time , last seen time , percent of malicious probe
+- output IP list sorted by percent of malicious probe , which we assume that they are GFW prober
+- if some of us publish prober list and aggregate data with each others , we can identify prober IPs with 100% confidence
+- so we able to block these IP in firewall (sudo ufw deny from <IP> to any)
+- obtain ip info from https://www.showmyip.com/ip-whois-lookup/
+![Alt text](/instruction/ip_analyze.png?raw=true "ip_analyze")
 
 # gfw_resist_http_proxy
 knock up gfw active-probe by redirecting it to nginx
