@@ -22,8 +22,8 @@ knock up gfw active-probe by redirecting it to nginx
 
 
 
-- nginx reverse proxy is not compatible with xray packet , it drop payload of http header (because xray http header is not standard)
-- we build a custom http proxy to manually route traffic to each nginx/xray backend
+- because nginx reverse proxy is not compatible with xray packet , it drop payload of http header (because xray http header is not standard)
+- so we build a custom http proxy to manually route traffic to each nginx/xray backend
 - we log all ip+time+req_header so we clearly observing active-probe IPs !
 - it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
 
