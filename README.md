@@ -49,9 +49,9 @@ knock up gfw active-probe by redirecting it to nginx
  - is not guarantee to prevent blocking but it prolong (we still working on!)
  - some blocking is by passive analysis so limit your traffic below 10MB/s or even lower
  - pyprox is a platform to hide xray behind
- - its customizable , you can use it for any path or any other protocol like websocket. 
+ - its customizable , you can use it for any path or any other protocol other than Http. 
  - you just need to watch network packet in wireshark and design your own routing decision.
- - you can analysis ip log and block gfw prober ip in ufw (soon we publish this module)
+ - you can analyse ip log and block GFW prober IPs in linux firewall
 
 # help
 ![Alt text](/instruction/pyprox.png?raw=true "pyprox")
