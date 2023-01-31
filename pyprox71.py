@@ -128,7 +128,7 @@ class ThreadedServer(object):
                             time.sleep(first_time_sleep)   # speed control + waiting for packet to fully recieve
                             backend_sock.settimeout(XRAY_max_wait)     # set timeout to 4 sec , if xray didnt response , we switch to nginx
                             data = backend_sock.recv(16384)
-                            #backend_sock.settimeout(my_socket_timeout)  # set timeout to its original
+                            backend_sock.settimeout(my_socket_timeout)  # set timeout to its original
                         except Exception as e:
                             # xray didnt recognize user UUID and become silent -> we quickly change backend to nginx -> prevent packet-replay attack of GFW prober
                             #print('xray 4 second timeout happend')
@@ -141,7 +141,7 @@ class ThreadedServer(object):
                             backend_name = 'nginx'
                             backend_sock.close()
                             backend_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-                            backend_sock.settimeout(my_socket_timeout)
+                            backend_sock.settimeout(XRAY_max_wait)  # close socket soon. no need to continue with nginx
                             backend_sock.connect(('127.0.0.1',PORT_NGINX))
                             backend_sock.sendall(cli_request)
                             time.sleep(first_time_sleep)   # speed control + waiting for packet to fully recieve
