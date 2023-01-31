@@ -47,9 +47,40 @@ knock up gfw active-probe by redirecting it to nginx
 
 # help
 ![Alt text](/instruction/pyprox.png?raw=true "pyprox")
+![Alt text](/instruction/config0.png?raw=true "config0")
 ![Alt text](/instruction/config1.png?raw=true "config1")
 ![Alt text](/instruction/config2.png?raw=true "config2")
 ![Alt text](/instruction/traffic.png?raw=true "traffic")
+
+# typical config:
+
+vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogInB5cHJveCIsDQogICJhZGQiOiAiMjE2LjIzOS4zOC4xMjAiLA0KICAicG9ydCI6ICI0NzgxNyIsDQogICJpZCI6ICIzNDM4NTJjYy1hZDRjLTRiYzMtOTY3Zi1hNDY1YTc3NzYyMzUiLA0KICAiYWlkIjogIjAiLA0KICAic2N5IjogImF1dG8iLA0KICAibmV0IjogInRjcCIsDQogICJ0eXBlIjogImh0dHAiLA0KICAiaG9zdCI6ICJmdHAubW96aWxsYS5vcmciLA0KICAicGF0aCI6ICIvcHViL2ZpcmVmb3gvcmVsZWFzZXMvbGF0ZXN0L3dpbjY0L2VuLVVTL0ZpcmVmb3gtU2V0dXAuZXhlLyIsDQogICJ0bHMiOiAiIiwNCiAgInNuaSI6ICIiLA0KICAiYWxwbiI6ICJodHRwLzEuMSINCn0=
+
+
+
+- Request header :   (you can set to any url path you want but dont forget to also set path in pyprox and nginx)
+  
+  Host : ftp.mozilla.org
+
+  Location : /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/
+
+  Referer : http://ftp.mozilla.org/pub/firefox/releases/latest/win64/en-US/
+
+  Accept-Language : en-US,en;q=0.9
+
+  Content-Type : application/octet-stream
+
+
+- Response header :
+  
+  Content-Type : application/octet-stream
+
+  Server : nginx
+
+  Via : 1.1 google, 1.1 google
+
+  Cache-Control : max-age=15552000
+
 
 
 # run python script:
