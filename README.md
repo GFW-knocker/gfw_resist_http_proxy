@@ -1,7 +1,8 @@
-# update 1401-11-12:
-- add important defense on packet-replay (when GFW request contain valid path but have no UUID , we redirect it to nginx)
-- make code cleaner and readable
-- add ip log analyzer
+# Note:
+- you can use any port you want (in pyprox ->  my_PORT = 1234  , in terminal -> ufw allow 1234/tcp)
+- you can use any domain you want ( Host : alialiali.ir )
+- you can use any path just ensure that start and end with slash (set path both in pyprox and in xui-panel)
+
 
 # TO DO next:
 - thread pool (make app stable , use less ram on server with 1000+ users)
