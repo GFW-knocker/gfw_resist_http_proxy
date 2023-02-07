@@ -1,3 +1,12 @@
+# gfw_resist_http_proxy
+knock up gfw active-probe by redirecting it to nginx
+
+- IDEA : hide xray behind nginx
+- we build a custom http proxy to manually route traffic to nginx/xray backend
+- we log all ip+time+req_header so we clearly observing active-probe IPs !
+- it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
+- we build our proxy because nginx reverse proxy is not compatible with xray packet , it drop payload of http header (xray http header is not standard)
+
 # Note:
 - you can use any port you want (in pyprox ->  my_PORT = 1234  , in terminal -> ufw allow 1234/tcp)
 - you can use any domain you want ( Host : alialiali.ir )
@@ -18,15 +27,6 @@
 
 ![Alt text](/instruction/ip_analyze.png?raw=true "ip_analyze")
 
-# gfw_resist_http_proxy
-knock up gfw active-probe by redirecting it to nginx
-
-
-
-- because nginx reverse proxy is not compatible with xray packet , it drop payload of http header (because xray http header is not standard)
-- so we build a custom http proxy to manually route traffic to each nginx/xray backend
-- we log all ip+time+req_header so we clearly observing active-probe IPs !
-- it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
 
 
 # how it work:
