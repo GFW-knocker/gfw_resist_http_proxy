@@ -28,9 +28,9 @@ XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 
 
 XRAY_max_wait = 4 # wait maximum 4 sec to get response from xray otherwise switch to nginx
-my_socket_timeout = 60 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
+my_socket_timeout = 30 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
 first_time_sleep = 0.1 # speed control , avoid server crash if huge number of users flooding
-
+accept_time_sleep = 0.015 # avoid server crash on flooding request -> max 64 sockets per second
 
 url_length = len(url_path)
 XRAY_resp_length = len(XRAY_400_response)
@@ -61,12 +61,13 @@ class ThreadedServer(object):
         self.sock.bind((self.host, self.port))
 
     def listen(self):
-        self.sock.listen(5)  # up to 5 concurrent unaccepted socket queued , the more is refused untill accepting those.
+        self.sock.listen(128)  # up to 128 concurrent unaccepted socket queued , the more is refused untill accepting those.
         while True:
             client_sock , client_addr = self.sock.accept()                    
             client_sock.settimeout(my_socket_timeout)
             
-            #print('someone connected')                 
+            #print('someone connected')
+            time.sleep(accept_time_sleep)   # avoid server crash on flooding request
             threading.Thread(target = self.my_upstream , args =(client_sock,client_addr) ).start()
             
 
