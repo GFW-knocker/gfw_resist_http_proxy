@@ -93,7 +93,7 @@ you can set to any url path you want but dont forget to also set path in pyprox 
 
   Via : 1.1 google, 1.1 google
 
-  Cache-Control : max-age=15552000
+  Cache-Control : max-age=0
 
 
 
