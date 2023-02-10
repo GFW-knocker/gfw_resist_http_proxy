@@ -17,6 +17,9 @@ knock up gfw active-probe by redirecting it to nginx
 - thread pool (make app stable , use less ram on server with 1000+ users)
 - upload "nginx proxy-pass" help + Django backend to be used with pyprox
 
+# protect your server against GFW DDOS and port scanning using:
+- https://github.com/GFW-knocker/GFW-DDOS-protection
+
 # IP Log Analyzer:
 - just run the script to analyze all ip log files in IP_Log folder and summary them into a tiny excel sheet
 - it list all unique IPs connecting to your server , counting num request to xray/nginx , first seen time , last seen time , percent of malicious probe
