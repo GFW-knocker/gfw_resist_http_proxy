@@ -71,53 +71,42 @@ vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogInB5cHJveCIsDQogICJhZGQiOiAiMjE2LjIzOS4z
 
 you can set to any url path you want but dont forget to also set path in pyprox and nginx
 
-- path :
+- path :<br>
+  <code>/pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/</code><br>
 
-  /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/
+- Request header :<br>
+  <code>Host : ftp.mozilla.org</code><br>
+  <code>Location : /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/</code><br>
+  <code>Referer : http://ftp.mozilla.org/pub/firefox/releases/latest/win64/en-US/</code><br>
+  <code>Accept-Language : en-US,en;q=0.9</code><br>
+  <code>Content-Type : application/octet-stream</code><br>
 
-- Request header :
-  
-  Host : ftp.mozilla.org
-
-  Location : /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/
-
-  Referer : http://ftp.mozilla.org/pub/firefox/releases/latest/win64/en-US/
-
-  Accept-Language : en-US,en;q=0.9
-
-  Content-Type : application/octet-stream
-
-
-- Response header :
-  
-  Content-Type : application/octet-stream
-
-  Server : nginx
-
-  Via : 1.1 google, 1.1 google
-
-  Cache-Control : max-age=0
+- Response header :<br>
+  <code>Content-Type : application/octet-stream</code><br>
+  <code>Server : nginx</code><br>
+  <code>Via : 1.1 google, 1.1 google</code><br>
+  <code>Cache-Control : max-age=0</code><br>
 
 
 
 # run python script:
-- set the premission
-
-  add   [#!/usr/bin/env python3]     to first line of pyprox.py
-
-  chmod +x pyprox.py
-
-- to run in forground
-
-  python pyprox.py
-
-- to run in background:
-
-  nohup python pyprox.py &
-
-- to stop script:
-
-  pkill -f pyprox.py
+- set the premission<br>
+<code>add   [#!/usr/bin/env python3]     to first line of pyprox.py</code><br>
+<code>chmod +x pyprox.py</code><br>
+- to run in forground<br>
+<code>python pyprox.py</code><br>
+- to run in background:<br>
+<code>nohup python pyprox.py &</code><br>
+- to stop script:<br>
+<code>pkill -f pyprox.py</code><br>
 
 
+# usefull path
+<code>/etc/nginx/sites-available/</code><br>
+<code>/var/www/html/</code><br>
+<code>/var/log/nginx/access.log</code><br>
+<code>/etc/x-ui/x-ui.db</code><br>
+<code>/usr/local/x-ui/access.log</code><br>
+<code>/etc/ufw/</code><br>
+<code>/var/log/ufw.log</code><br>
 
