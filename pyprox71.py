@@ -30,7 +30,7 @@ XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 XRAY_max_wait = 4 # wait maximum 4 sec to get response from xray otherwise switch to nginx
 my_socket_timeout = 30 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
 first_time_sleep = 0.1 # speed control , avoid server crash if huge number of users flooding
-accept_time_sleep = 0.015 # avoid server crash on flooding request -> max 64 sockets per second
+accept_time_sleep = 0.01 # avoid server crash on flooding request -> max 100 sockets per second
 
 url_length = len(url_path)
 XRAY_resp_length = len(XRAY_400_response)
@@ -68,7 +68,9 @@ class ThreadedServer(object):
             
             #print('someone connected')
             time.sleep(accept_time_sleep)   # avoid server crash on flooding request
-            threading.Thread(target = self.my_upstream , args =(client_sock,client_addr) ).start()
+            thread_up = threading.Thread(target = self.my_upstream , args =(client_sock,client_addr) )
+            thread_up.daemon = True   #avoid memory leak by telling os its belong to main program , its not a separate program , so gc collect it when thread finish
+            thread_up.start()
             
 
     def my_upstream(self, client_sock , client_addr):
@@ -91,12 +93,16 @@ class ThreadedServer(object):
                             #self.write_ip_access_log([client_addr[0],'XRAY',my_time,data[60:200].decode("utf-8").replace('\n',' ').replace('\r','')])
                             self.write_ip_access_log([client_addr[0],'XRAY',my_time])                            
                             backend_sock.connect(('127.0.0.1',PORT_XRAY))
-                            threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'xray' , client_addr[0] , my_time , data) ).start()
+                            thread_down = threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'xray' , client_addr[0] , my_time , data) )
+                            thread_down.daemon = True
+                            thread_down.start()
                             backend_sock.sendall(data)
                         else:                                                    
                             self.write_ip_access_log([client_addr[0],'NGINX',my_time,str(data[:500])])                            
                             backend_sock.connect(('127.0.0.1',PORT_NGINX))
-                            threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'nginx' , '' , '' , '' ) ).start()
+                            thread_down = threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'nginx' , '' , '' , '' ) )
+                            thread_down.daemon = True
+                            thread_down.start()
                             backend_sock.sendall(data)                                               
                     else:                   
                         raise Exception('cli syn close')
