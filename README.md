@@ -7,28 +7,10 @@ knock up gfw active-probe by redirecting it to nginx
 - it prolong blocking duration but we need more investigation ( we guess some blocking is from pure passive traffic analysis )
 - we build our proxy because nginx reverse proxy is not compatible with xray packet , it drop payload of http header (xray http header is not standard)
 
-# Note:
-- you can use any port you want (in pyprox ->  my_PORT = 1234  , in terminal -> ufw allow 1234/tcp)
-- you can use any domain you want ( Host : alialiali.ir )
-- you can use any path just ensure that start and end with slash (set path both in pyprox and in xui-panel)
 
 
-# TO DO next:
-- thread pool (make app stable , use less ram on server with 1000+ users)
-- upload "nginx proxy-pass" help + Django backend to be used with pyprox
-
-# protect your server against GFW DDOS and port scanning using:
+# Bonus->protect VPN server against GFW DDOS and port scanning:
 - https://github.com/GFW-knocker/GFW-DDOS-protection
-
-# IP Log Analyzer:
-- just run the script to analyze all ip log files in IP_Log folder and summary them into a tiny excel sheet
-- it list all unique IPs connecting to your server , counting num request to xray/nginx , first seen time , last seen time , percent of malicious probe
-- output IP list sorted by percent of malicious probe , which we assume that they are GFW prober
-- if some of us publish prober list and aggregate data with each others , we can identify prober IPs with 100% confidence
-- so we able to block these IP in firewall (sudo ufw deny from $IP to any)
-- obtain ip info from https://www.showmyip.com/ip-whois-lookup/
-
-![Alt text](/instruction/ip_analyze.png?raw=true "ip_analyze")
 
 
 
@@ -39,15 +21,17 @@ knock up gfw active-probe by redirecting it to nginx
 - if all other things ok (dynamic-page website, serve on port 80, other ports closed,...) the prober classifiy you as a legitimate web-server
 
 
-# the system consist of a these module:
+# Note:
+- you can use any port you want (in pyprox ->  my_PORT = 1234  , in terminal -> ufw allow 1234/tcp)
+- you can use any domain you want ( Host : alialiali.ir )
+- you can use any path just ensure that start and end with slash (set path both in pyprox and in xui-panel)
 
-1-custom http proxy to identify xray/v2ray request (port n1=80)
 
-2-nginx and backend web server that mimic a real website (local port n2)
-
-3-xray/v2ray that serve tcp+http protocol on local port  (local port n3)
-
-4- ufw block all ports except port 80 which is open for everyone
+# the system consist of a these module:<br>
+1- custom http proxy to identify xray/v2ray request (port n1=80)<br>
+2- nginx and backend web server that mimic a real website (local port n2)<br>
+3- xray/v2ray that serve tcp+http protocol on local port  (local port n3)<br>
+4- ufw block all ports except port 80 which is open for everyone<br>
 
 # Suggestion:
  - is not guarantee to prevent blocking but it prolong (we still working on!)
@@ -86,6 +70,20 @@ you can set to any url path you want but dont forget to also set path in pyprox 
   <code>Server : nginx</code><br>
   <code>Via : 1.1 google, 1.1 google</code><br>
   <code>Cache-Control : max-age=0</code><br>
+
+
+
+
+
+# IP Log Analyzer:
+- just run the script to analyze all ip log files in IP_Log folder and summary them into a tiny excel sheet
+- it list all unique IPs connecting to your server , counting num request to xray/nginx , first seen time , last seen time , percent of malicious probe
+- output IP list sorted by percent of malicious probe , which we assume that they are GFW prober
+- if some of us publish prober list and aggregate data with each others , we can identify prober IPs with 100% confidence
+- so we able to block these IP in firewall (sudo ufw deny from $IP to any)
+- obtain ip info from https://www.showmyip.com/ip-whois-lookup/
+
+![Alt text](/instruction/ip_analyze.png?raw=true "ip_analyze")
 
 
 
