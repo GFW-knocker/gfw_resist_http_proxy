@@ -1,0 +1,121 @@
+{
+  "log": {
+    "loglevel": "none"
+  },
+ 
+  "api": {
+    "services": [
+      "HandlerService",
+      "LoggerService",
+      "StatsService"
+    ],
+    "tag": "api"
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 62789,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1"
+      },
+      "tag": "api"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "policy": {
+    "levels": {
+      "0": {
+        "statsUserUplink": true,
+        "statsUserDownlink": true
+      }
+    },
+    "system": {
+      "statsInboundDownlink": true,
+      "statsInboundUplink": true
+    }
+  },
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api",
+        "type": "field"
+      },
+
+{
+      "domain": [
+	"geosite:category-ads-all",
+	"geosite:category-porn",
+	"geosite:category-ir",
+	"geosite:cn",
+	"dl2.learnasan.ir",
+	"pushiran.com",
+	"rtellservers.com",
+	"p86.ir",
+	"adsnovin.net",
+	"adsnovin.ir",
+	"adsnovin.com",
+	"vira-s1.com",
+	"vira-tel.ir",
+	"paydane.ir",
+	"ccibp.ir",
+	"adnamaa.ir",
+	"raz-network.ir",
+	"raaz.co",
+	"pushekhtesasi.com",
+	"pushnotificationws.com",
+	"vira-tel.ir",
+	"pushfa.com"	
+      ],
+       "outboundTag": "blocked",
+       "type": "field"
+    },
+
+      
+  {
+        "ip": [
+	"geoip:cn",
+	"geoip:ir",
+	"geoip:private",
+	"141.8.224.183",
+	"52.213.114.86",
+	"51.38.11.229",
+	"141.105.69.168",
+	"199.127.99.12",
+	"141.105.69.162",
+	"148.251.189.249",
+	"176.31.82.42",
+	"185.55.226.20",
+	"185.94.97.54",
+	"109.169.76.38",
+	"206.191.152.58"
+        ],
+        "outboundTag": "blocked",
+        "type": "field"
+      },
+      
+      {        
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "blocked",
+        "type": "field"
+      }
+    ]
+  },
+  "stats": {}
+}
