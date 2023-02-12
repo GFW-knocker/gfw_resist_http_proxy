@@ -9,12 +9,12 @@ knock up gfw active-probe by redirecting it to nginx
 
 
 
-# Bonus->protect VPN server against GFW DDOS and port scanning:
+# protect VPN server against GFW DDOS and port scanning:
 - https://github.com/GFW-knocker/GFW-DDOS-protection
 
 
 
-# how it work:
+# how pyprox work:
 
 - all http request examined , if it xray-valid redirect it to xray(n3) else redirect it to nginx(n2)
 - so gfw prober alwayse see nginx and cannot talk to xray directly 
@@ -23,7 +23,7 @@ knock up gfw active-probe by redirecting it to nginx
 
 # Note:
 - you can use any port you want (in pyprox ->  my_PORT = 1234  , in terminal -> ufw allow 1234/tcp)
-- you can use any domain you want ( Host : alialiali.ir )
+- you can use any domain you want ( Host : blablabla.ir )
 - you can use any path just ensure that start and end with slash (set path both in pyprox and in xui-panel)
 
 
