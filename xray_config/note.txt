@@ -1,0 +1,17 @@
+in this configuration we block Ads,IR,China, and some malicious IP/sites reported by our VPS provider.
+
+paste this config into xui->panel setting->xray configuration
+then save and restart
+
+
+if you want to allow Ads you just need to delete this line:
+"geosite:category-ads-all",
+
+
+if you want to allow chinese websites , delete these line:
+"geosite:cn",
+"geoip:cn",
+
+
+
+
