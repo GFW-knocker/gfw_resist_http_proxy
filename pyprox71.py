@@ -27,10 +27,12 @@ url_path = b'GET /pub/firefox/releases/latest/win64/en-US/Firefox-Setup.exe/'
 XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 
 
-XRAY_max_wait = 4 # wait maximum 4 sec to get response from xray otherwise switch to nginx
+XRAY_max_wait = 5 # wait maximum 5 sec to get response from xray otherwise switch to nginx
 my_socket_timeout = 30 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
 first_time_sleep = 0.1 # speed control , avoid server crash if huge number of users flooding
 accept_time_sleep = 0.01 # avoid server crash on flooding request -> max 100 sockets per second
+is_log = False # set to True if you want log all IP -> ~5% more cpu usage
+
 
 url_length = len(url_path)
 XRAY_resp_length = len(XRAY_400_response)
@@ -47,7 +49,7 @@ logger = logging.getLogger('log')
 logger.setLevel(logging.INFO)
 
 #   save log backup every -> when ={'S','M','H','D','midnight','W0','W6'}
-ch = TimedRotatingFileHandler( filename=log_file_path , when='H', interval=1, backupCount=90, delay=False)
+ch = TimedRotatingFileHandler( filename=log_file_path , when='H', interval=1, backupCount=120, delay=False)
 ch.setFormatter(logging.Formatter('%(message)s'))
 logger.addHandler(ch)
 
@@ -87,18 +89,23 @@ class ThreadedServer(object):
                     #print('len data -> ',str(len(data)))                
                     #print('user talk :')
                 
-                    if data:                    
-                        my_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")                        
+                    if data:                                                                    
                         if( data[:url_length]==url_path):
                             #self.write_ip_access_log([client_addr[0],'XRAY',my_time,data[60:200].decode("utf-8").replace('\n',' ').replace('\r','')])
-                            self.write_ip_access_log([client_addr[0],'XRAY',my_time])                            
+                            if( is_log == True ):
+                                my_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                self.write_ip_access_log([client_addr[0],'XRAY',my_time])
+                            else:
+                                my_time = ''
                             backend_sock.connect(('127.0.0.1',PORT_XRAY))
                             thread_down = threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'xray' , client_addr[0] , my_time , data) )
                             thread_down.daemon = True
                             thread_down.start()
                             backend_sock.sendall(data)
                         else:                                                    
-                            self.write_ip_access_log([client_addr[0],'NGINX',my_time,str(data[:500])])                            
+                            if( is_log == True ):
+                                my_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                self.write_ip_access_log([client_addr[0],'NGINX',my_time,str(data[:500])])                            
                             backend_sock.connect(('127.0.0.1',PORT_NGINX))
                             thread_down = threading.Thread(target = self.my_downstream , args = (backend_sock , client_sock , 'nginx' , '' , '' , '' ) )
                             thread_down.daemon = True
@@ -144,7 +151,8 @@ class ThreadedServer(object):
                         if( data[:XRAY_resp_length]==XRAY_400_response):
                             # xray didnt recognize user and send 400X -> we quickly change backend to nginx -> prevent fingerprint attack of GFW prober                            
                             #print('change backend to nginx (possible attack on xray with packet-replay or fingerprinting!)')
-                            self.write_ip_access_log([cli_ip,'NG-PR',req_time,str(cli_request[:1500])])
+                            if( is_log == True ):
+                                self.write_ip_access_log([cli_ip,'NG-PR',req_time,str(cli_request[:1500])])
                             backend_name = 'nginx'
                             backend_sock.close()
                             backend_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
