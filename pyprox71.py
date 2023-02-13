@@ -30,7 +30,7 @@ XRAY_400_response = b'HTTP/1.1 40'  # catch any 400~499 response
 XRAY_max_wait = 5 # wait maximum 5 sec to get response from xray otherwise switch to nginx
 my_socket_timeout = 30 # default for google is ~21 sec , recommend 60 sec unless you have low ram and need close soon
 first_time_sleep = 0.1 # speed control , avoid server crash if huge number of users flooding
-accept_time_sleep = 0.01 # avoid server crash on flooding request -> max 100 sockets per second
+accept_time_sleep = 0.015 # avoid server crash on flooding request -> max 64 sockets per second
 is_log = False # set to True if you want log all IP -> ~5% more cpu usage
 
 
