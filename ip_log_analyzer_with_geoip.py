@@ -4,7 +4,7 @@ import pandas as pd     # -> pip install pandas
 import geoip2.database   # -> pip install geoip2
 import csv
 import logging
-from scipy.spatial import cKDTree as KDTree
+from scipy.spatial import cKDTree as KDTree   # -> pip install scipy
 
 
 
