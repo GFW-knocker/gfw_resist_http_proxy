@@ -34,12 +34,18 @@ def read_ip_log(file_name):
         count = 0
         while True:
             count += 1
-            line = f.readline().replace('\n','').replace('\r','')
+            line = f.readline()
             if ( (count%1000)==0 ):
+                #print(count)
                 time.sleep(sleep_between_lines)
             if line:
-                X = parse_line(line)
-                add_line_to_dataframe(X)                
+                try:                    
+                    X = parse_line( line.replace('\n','').replace('\r','') )
+                    add_line_to_dataframe(X) 
+                except Exception as e:
+                    pass
+                    #print(repr(e),' line number :',count)                    
+                    #print('==>' + line)                               
             else:
                 break
         
@@ -57,7 +63,7 @@ def parse_line(mystr):
     elif( len(x)==3):
         return {'ip':x[0] , 'access':x[1] , 'time':x[2] , 'req':''}
     else:
-        raise Exception('line parse err. invalid log file?')
+        raise Exception('line parse err. invalid line in log file? :')
 
 
 
