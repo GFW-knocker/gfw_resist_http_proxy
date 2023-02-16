@@ -12,7 +12,9 @@ import time
 output_file_name = 'ip_summary.csv'
 ip_log_folder_name = 'IP_Log'
 geoip_folder_name = 'geolite2'
-sleep_between_files = 60    # 60 second sleep between each file to prevent kernel from killing us due to cpu usage
+sleep_between_files = 30    # 30 second sleep between each file to prevent kernel from killing us due to cpu usage -> set zero if you are on pc
+sleep_between_lines = 0.1  # less cpu usage by sleep 0.1 sec on each 1000 line -> set zero if you are on pc
+
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -33,6 +35,8 @@ def read_ip_log(file_name):
         while True:
             count += 1
             line = f.readline().replace('\n','').replace('\r','')
+            if ( (count%1000)==0 ):
+                time.sleep(sleep_between_lines)
             if line:
                 X = parse_line(line)
                 add_line_to_dataframe(X)                
