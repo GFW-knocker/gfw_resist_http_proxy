@@ -4,13 +4,15 @@ import pandas as pd     # -> pip install pandas
 import geoip2.database   # -> pip install geoip2
 import csv
 import logging
-from scipy.spatial import cKDTree as KDTree   # -> pip install scipy
+from scipy.spatial import cKDTree as KDTree    # -> pip install scipy
+import time
 
 
 
 output_file_name = 'ip_summary.csv'
 ip_log_folder_name = 'IP_Log'
 geoip_folder_name = 'geolite2'
+sleep_between_files = 60    # 60 second sleep between each file to prevent kernel from killing us due to cpu usage
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -232,6 +234,8 @@ if __name__ == "__main__":
         if( f[-4:]=='.txt') or (f[-3]=='_'):
             myfile = os.path.join(ip_log_folder_path,f)        
             read_ip_log(myfile)
+            print('sleep for',sleep_between_files,'sec to prevent termination due to high cpu usage')
+            time.sleep(sleep_between_files)
     
     ip_list = [x['ip'] for x in Dict_list]
     
